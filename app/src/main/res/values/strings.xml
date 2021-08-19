@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ZudamalManager</string>
+    <string name="edittext_hint">ПИН КОД</string>
+    <string name="reg_hint_login">ЛОГИН</string>
+    <string name="reg_hint_sign">ПАРОЛЬ</string>
+    <string name="reg_hint_pin">СОЗДАТЬ ПИН КОД</string>
+</resources>
