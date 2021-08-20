@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/shape_cover"/>
+    <item android:top="7dp" android:bottom="1dp" android:right="1dp" android:left="1dp" android:drawable="@drawable/edit_text_bg"/>
+</layer-list>

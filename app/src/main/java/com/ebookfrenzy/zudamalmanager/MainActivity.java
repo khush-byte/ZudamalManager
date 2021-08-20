@@ -7,6 +7,7 @@ import android.Manifest;
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.app.KeyguardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -22,16 +23,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 import com.ebookfrenzy.zudamalmanager.databinding.ActivityMainBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.SplashScreenBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.UserRegBinding;
+import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private SplashScreenBinding splash;
-    private UserRegBinding reg;
+    public UserRegBinding reg;
+    boolean isFingerChecked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("root_manager", 0);
         String myPin = pref.getString("pin", "");
+        boolean isFingerprintActive = pref.getBoolean("fingerCheck", false);
 
         //--animation logo start
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_out);
@@ -86,11 +92,12 @@ public class MainActivity extends AppCompatActivity {
         //--animation logo end
 
         binding.pinField.setVisibility(View.GONE);
-        binding.fingerBtn.setVisibility(View.GONE);
+        binding.fingerImageBtn.setVisibility(View.GONE);
         reg.regLoginField.setVisibility(View.GONE);
         reg.regSignField.setVisibility(View.GONE);
         reg.regPinField.setVisibility(View.GONE);
         reg.regBtn.setVisibility(View.GONE);
+        reg.regFingerState.setVisibility(View.GONE);
 
         Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         binding.logoPin.startAnimation(animation2);
@@ -103,6 +110,10 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onAnimationEnd(Animation arg0) {
+                binding.pinField.setVisibility(View.VISIBLE);
+                Animation animation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                binding.pinField.startAnimation(animation3);
+
                 new CountDownTimer(150, 100)
                 {
                     @Override
@@ -111,26 +122,18 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-                        binding.pinField.setVisibility(View.VISIBLE);
-                        Animation animation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                        binding.pinField.startAnimation(animation3);
+                        if(!isFingerprintActive) {
+                            binding.pinField.requestFocus();
+                            InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                        }
 
-                        new CountDownTimer(150, 100)
-                        {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+                            checkBiometricSupport();
+                            if(isFingerprintActive){
+                                authenticateUser();
                             }
-
-                            @Override
-                            public void onFinish() {
-                                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
-                                    checkBiometricSupport();
-                                    binding.fingerBtn.setVisibility(View.VISIBLE);
-                                    Animation animation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                                    binding.fingerBtn.startAnimation(animation4);
-                                }
-                            }
-                        }.start();
+                        }
                     }
                 }.start();
             }
@@ -139,7 +142,14 @@ public class MainActivity extends AppCompatActivity {
         binding.pinText.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 if(binding.pinText.length()==4){
-                    Log.i("Debug", "Good");
+                    if(binding.pinText.getText().toString().equals(myPin)){
+                       /*Intent myIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                      activity.startActivity(myIntent);
+                      activity.finish();*/
+                    }
+                    else{
+                        Toast.makeText(getBaseContext(), "ПИН код не совпадает!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -147,7 +157,17 @@ public class MainActivity extends AppCompatActivity {
                 binding.pinText.setTextSize(22);
             }
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        binding.fingerImageBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
+            @Override
+            public void onClick(View v) {
+                authenticateUser();
+            }
         });
     }
 
@@ -157,11 +177,12 @@ public class MainActivity extends AppCompatActivity {
 
         if(!keyguardManager.isKeyguardSecure()){
             notifyUser("Lock screen security not enabled in Settings");
+
             return false;
         }
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_BIOMETRIC) != PackageManager.PERMISSION_GRANTED){
-            notifyUser("Fingerprint authentication permission not enabled");
+            //notifyUser("Fingerprint authentication permission not enabled");
             return false;
         }
 
@@ -181,7 +202,9 @@ public class MainActivity extends AppCompatActivity {
         return new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode, CharSequence errString){
-                notifyUser("Ошибка авторизации: " + errString);
+                //notifyUser("Ошибка авторизации: " + errString);
+                notifyUser("Отмена авторизации");
+                binding.fingerImageBtn.setVisibility(View.VISIBLE);
                 super.onAuthenticationError(errorCode, errString);
             }
 
@@ -196,9 +219,13 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAuthenticationSucceeded(
-                    BiometricPrompt.AuthenticationResult result){ notifyUser("Authentication Succeeded");
-                //startActivity(new Intent(MainActivity.this, HelloActivity.class));
+            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result){
+                //notifyUser("Authentication Succeeded");
+
+                    /*Intent myIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
+                      activity.startActivity(myIntent);
+                      activity.finish();*/
+
                 super.onAuthenticationSucceeded(result);
             }
         };
@@ -216,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    public void authenticateUser(View view){
+    private void authenticateUser(){
         BiometricPrompt biometricPrompt = new BiometricPrompt.Builder(this)
                 .setTitle("Авторизация")
                 .setDescription("Для входа коснитесь датчика отпечатка пальца.")
@@ -224,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         notifyUser("Отмена авторизации");
+                        binding.fingerImageBtn.setVisibility(View.VISIBLE);
                     }
                 })
                 .build();
@@ -243,62 +271,96 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onAnimationEnd(Animation arg0) {
-                new CountDownTimer(150, 100)
-                {
+                reg.regLoginField.setVisibility(View.VISIBLE);
+                Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                reg.regLoginField.startAnimation(animation1);
+
+                new CountDownTimer(150, 100) {
                     @Override
                     public void onTick(long millisUntilFinished) {
                     }
 
                     @Override
                     public void onFinish() {
-                        reg.regLoginField.setVisibility(View.VISIBLE);
-                        Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                        reg.regLoginField.startAnimation(animation1);
+                        reg.regSignField.setVisibility(View.VISIBLE);
+                        Animation animation2 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                        reg.regSignField.startAnimation(animation2);
 
-                        new CountDownTimer(150, 100)
-                        {
+                        new CountDownTimer(150, 100) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                             }
 
                             @Override
                             public void onFinish() {
-                                reg.regSignField.setVisibility(View.VISIBLE);
-                                Animation animation2= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                                reg.regSignField.startAnimation(animation2);
+                                reg.regPinField.setVisibility(View.VISIBLE);
+                                Animation animation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                                reg.regPinField.startAnimation(animation3);
 
-                                new CountDownTimer(150, 100)
-                                {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-                                    }
+                                if(checkBiometricSupport()) {
+                                    new CountDownTimer(150, 100) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                        }
 
-                                    @Override
-                                    public void onFinish() {
-                                        reg.regPinField.setVisibility(View.VISIBLE);
-                                        Animation animation3 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                                        reg.regPinField.startAnimation(animation3);
+                                        @Override
+                                        public void onFinish() {
+                                            reg.regFingerState.setVisibility(View.VISIBLE);
+                                            Animation animation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                                            reg.regFingerState.startAnimation(animation4);
 
-                                        new CountDownTimer(150, 100)
-                                        {
-                                            @Override
-                                            public void onTick(long millisUntilFinished) {
-                                            }
+                                            new CountDownTimer(150, 100) {
+                                                @Override
+                                                public void onTick(long millisUntilFinished) {
+                                                }
 
-                                            @Override
-                                            public void onFinish() {
-                                                reg.regBtn.setVisibility(View.VISIBLE);
-                                                Animation animation4 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                                                reg.regBtn.startAnimation(animation4);
-                                            }
-                                        }.start();
-                                    }
-                                }.start();
+                                                @Override
+                                                public void onFinish() {
+                                                    reg.regBtn.setVisibility(View.VISIBLE);
+                                                    Animation animation5 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                                                    reg.regBtn.startAnimation(animation5);
+                                                }
+                                            }.start();
+                                        }
+                                    }.start();
+
+                                    reg.regSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                            isFingerChecked = isChecked;
+                                        }
+                                    });
+                                }else{
+                                    new CountDownTimer(150, 100) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            reg.regBtn.setVisibility(View.VISIBLE);
+                                            Animation animation5 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+                                            reg.regBtn.startAnimation(animation5);
+                                        }
+                                    }.start();
+                                }
                             }
                         }.start();
                     }
                 }.start();
             }
         });
+    }
+
+    public void userSign(View view){
+        if (!reg.regLoginText.getText().toString().equals("") && !reg.regSignText.getText().toString().equals("") && !reg.regPinText.getText().toString().equals("")) {
+            if (reg.regPinText.getText().toString().length() != 4) {
+                Toast.makeText(getBaseContext(), "ПИН код должен состоять из 4-х цифр!", Toast.LENGTH_LONG).show();
+            } else {
+                RequestAuth request = new RequestAuth(reg.regLoginText.getText().toString(), reg.regSignText.getText().toString(), reg.regPinText.getText().toString(), getApplicationContext(), isFingerChecked);
+                request.execute();
+            }
+        }else{
+            Toast.makeText(getBaseContext(), "Введите все данные пожалуйста!", Toast.LENGTH_LONG).show();
+        }
     }
 }

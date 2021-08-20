@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
@@ -26,10 +27,11 @@
         android:id="@+id/reg_login_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="36dp"
         android:layout_marginEnd="56dp"
+        android:background="@drawable/text_field_background"
         app:layout_constraintBottom_toTopOf="@+id/reg_sign_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -41,13 +43,14 @@
             android:id="@+id/reg_login_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@null"
             android:gravity="center"
             android:hint="@string/reg_hint_login"
-            android:inputType="numberPassword"
-            android:maxLength="4"
+            android:inputType="textPersonName"
+            android:maxLength="20"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,10 +58,10 @@
         android:id="@+id/reg_sign_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="56dp"
+        android:background="@drawable/text_field_background"
         app:layout_constraintBottom_toTopOf="@+id/reg_pin_field"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -71,11 +74,11 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:hint="@string/reg_hint_sign"
-            android:inputType="numberPassword"
-            android:maxLength="4"
+            android:inputType="textPassword"
+            android:maxLength="20"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,11 +86,12 @@
         android:id="@+id/reg_pin_field"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="56dp"
         android:layout_marginStart="56dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="56dp"
-        app:layout_constraintBottom_toTopOf="@+id/finger_btn"
+
+        android:background="@drawable/text_field_background"
+        app:layout_constraintBottom_toTopOf="@+id/reg_finger_state"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,9 +107,48 @@
             android:maxLength="4"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:textSize="16sp" />
+            android:textSize="13sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/reg_finger_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/reg_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_pin_field">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="2dp"
+            android:text="Авторизация по отпечатку"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/regSwitch"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Switch
+            android:id="@+id/regSwitch"
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:textColor="#525353"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
         android:id="@+id/reg_btn"
@@ -113,13 +156,13 @@
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="1dp"
         android:layout_marginEnd="52dp"
+        android:onClick="userSign"
         android:text="РЕГИСТРАЦИЯ"
         app:backgroundTint="#5ABABD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_pin_field" />
+        app:layout_constraintTop_toBottomOf="@+id/reg_finger_state" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
