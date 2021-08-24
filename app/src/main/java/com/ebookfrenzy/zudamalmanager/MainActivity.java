@@ -11,6 +11,7 @@ import android.animation.ObjectAnimator;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -147,9 +148,9 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(binding.pinText.length()==4){
                     if(binding.pinText.getText().toString().equals(myPin)){
-                       /*Intent myIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
-                      activity.startActivity(myIntent);
-                      activity.finish();*/
+                        Intent myIntent = new Intent(getApplicationContext(), FirstActivity.class);
+                        startActivity(myIntent);
+                        finish();
                     }
                     else{
                         Toast.makeText(getBaseContext(), "ПИН код не совпадает!", Toast.LENGTH_SHORT).show();
@@ -226,9 +227,9 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result){
                 //notifyUser("Authentication Succeeded");
 
-                    /*Intent myIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
-                      activity.startActivity(myIntent);
-                      activity.finish();*/
+                Intent myIntent = new Intent(getApplicationContext(), FirstActivity.class);
+                startActivity(myIntent);
+                finish();
 
                 super.onAuthenticationSucceeded(result);
             }
@@ -360,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
             if (reg.regPinText.getText().toString().length() != 4) {
                 Toast.makeText(getBaseContext(), "ПИН код должен состоять из 4-х цифр!", Toast.LENGTH_LONG).show();
             } else {
-                RequestAuth request = new RequestAuth(reg.regLoginText.getText().toString(), reg.regSignText.getText().toString(), reg.regPinText.getText().toString(), getApplicationContext(), isFingerChecked);
+                RequestAuth request = new RequestAuth(reg.regLoginText.getText().toString(), reg.regSignText.getText().toString(), reg.regPinText.getText().toString(), getApplicationContext(), isFingerChecked, MainActivity.this);
                 request.execute();
             }
         }else{
