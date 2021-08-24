@@ -56,7 +56,6 @@
         android:id="@+id/finger_image_btn"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="52dp"
         android:src="@drawable/ic_baseline_fingerprint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

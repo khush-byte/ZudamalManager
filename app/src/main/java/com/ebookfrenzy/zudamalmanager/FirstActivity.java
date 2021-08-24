@@ -1,14 +1,21 @@
 package com.ebookfrenzy.zudamalmanager;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,7 +23,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.ebookfrenzy.zudamalmanager.databinding.ActivityFirstBinding;
 
 public class FirstActivity extends AppCompatActivity {
-
     private AppBarConfiguration appBarConfiguration;
     private ActivityFirstBinding binding;
     private boolean isMenuPressed = false;
@@ -190,5 +196,71 @@ public class FirstActivity extends AppCompatActivity {
             isMenuPressed = false;
             binding.mainMenu.setVisibility(View.GONE);
         }
+    }
+
+    public void exitScript(View view){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams") final View popupView = inflater.inflate(R.layout.popup_exit, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
+
+        Button no_exit_btn = popupView.findViewById(R.id.no_exit_btn);
+        Button yes_exit_btn = popupView.findViewById(R.id.yes_exit_btn);
+
+        // show the popup window
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        no_exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+        yes_exit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("root_manager", 0).edit();
+                editor.putString("login", "");
+                editor.putString("pin", "");
+                editor.apply();
+
+                popupWindow.dismiss();
+
+                Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
+        });
+    }
+
+    public void settingsScript(View view){
+        Log.i("Debug", "Settings");
+    }
+
+    public void noteScript(View view){
+        Log.i("Debug", "Note");
+    }
+
+    public void reportScript(View view){
+        Log.i("Debug", "Report");
+    }
+
+    public void agentScript(View view){
+        Log.i("Debug", "Agent");
+    }
+
+    public void pointScript(View view){
+        Log.i("Debug", "Point");
+    }
+
+    public void terminalScript(View view){
+        Log.i("Debug", "Terminal");
+    }
+
+    public void paymentScript(View view){
+        Log.i("Debug", "Payment");
     }
 }
