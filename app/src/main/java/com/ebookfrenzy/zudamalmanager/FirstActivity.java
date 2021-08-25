@@ -27,7 +27,7 @@ public class FirstActivity extends AppCompatActivity {
     private ActivityFirstBinding binding;
     private boolean isMenuPressed = false;
     boolean isAnimEnd = true;
-    NavController navController;
+    public NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,13 +140,15 @@ public class FirstActivity extends AppCompatActivity {
         binding.toobarBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeMenu();
-                navController.popBackStack();
+                Log.i("Debug", String.valueOf(navController.getCurrentDestination().getLabel()));
 
-                if(String.valueOf(navController.getCurrentDestination().getLabel()).equals("Zudamal Manager")){
-                    setToolbar(String.valueOf(navController.getCurrentDestination().getLabel()), true);
-                }else{
-                    setToolbar(String.valueOf(navController.getCurrentDestination().getLabel()), false);
+                if(String.valueOf(navController.getCurrentDestination().getLabel()).equals("TODO")) {
+                    navController.navigate(R.id.FirstFragment);
+                    setToolbar("TODO", false);
+                }
+                else {
+                        navController.navigate(R.id.FirstFragment);
+                        setToolbar(String.valueOf(navController.getCurrentDestination().getLabel()), true);
                 }
             }
         });
@@ -184,7 +186,17 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-    public void exitScript(View view){
+    public void settingsScript(View view){
+        setToolbar("Настройки", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.settingsFragment);
+    }
+
+    public void reportScript(View view){
+        Log.i("Debug", "Report");
+        binding.toolbarTitle.setText("Report");
+    }
+
+    public void agentScript(View view){
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams") final View popupView = inflater.inflate(R.layout.popup_exit, null);
 
@@ -222,29 +234,9 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
-    public void settingsScript(View view){
-        Log.i("Debug", "Settings");
-        binding.toolbarTitle.setText("Settings");
-    }
-
-    public void noteScript(View view){
-        Log.i("Debug", "Note");
-        binding.toolbarTitle.setText("Note");
-    }
-
-    public void reportScript(View view){
-        Log.i("Debug", "Report");
-        binding.toolbarTitle.setText("Report");
-    }
-
-    public void agentScript(View view){
-        Log.i("Debug", "Agent");
-        binding.toolbarTitle.setText("Agent");
-    }
-
     public void pointScript(View view){
-        Log.i("Debug", "Point");
-        binding.toolbarTitle.setText("Point");
+        setToolbar("Пункты", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.pointsFragment);
     }
 
     public void terminalScript(View view){

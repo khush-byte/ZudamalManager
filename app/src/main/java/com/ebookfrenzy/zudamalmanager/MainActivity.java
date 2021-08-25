@@ -30,6 +30,7 @@ import com.ebookfrenzy.zudamalmanager.databinding.ActivityMainBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.SplashScreenBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.UserRegBinding;
 import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
+import com.ebookfrenzy.zudamalmanager.tools.NetworkManager;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -356,8 +357,12 @@ public class MainActivity extends AppCompatActivity {
             if (reg.regPinText.getText().toString().length() != 4) {
                 Toast.makeText(getBaseContext(), "ПИН код должен состоять из 4-х цифр!", Toast.LENGTH_LONG).show();
             } else {
-                RequestAuth request = new RequestAuth(reg.regLoginText.getText().toString(), reg.regSignText.getText().toString(), reg.regPinText.getText().toString(), getApplicationContext(), isFingerChecked, MainActivity.this);
-                request.execute();
+                if (NetworkManager.isNetworkAvailable(getApplicationContext())) {
+                    RequestAuth request = new RequestAuth(reg.regLoginText.getText().toString(), reg.regSignText.getText().toString(), reg.regPinText.getText().toString(), getApplicationContext(), isFingerChecked, MainActivity.this);
+                    request.execute();
+                }else{
+                    Toast.makeText(getBaseContext(), "Нет подключения к интернету!", Toast.LENGTH_SHORT).show();
+                }
             }
         }else{
             Toast.makeText(getBaseContext(), "Введите все данные пожалуйста!", Toast.LENGTH_LONG).show();

@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentFirstBinding;
 
-public class FirstFragment extends Fragment {
+public class FirstFragment extends Fragment{
     private FragmentFirstBinding binding;
 
     @Override
@@ -28,6 +29,14 @@ public class FirstFragment extends Fragment {
                 ((FirstActivity) getActivity()).setToolbar("Second Fragment", false);
             }
         });
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
+            @Override
+            public void handleOnBackPressed() {
+                ((FirstActivity) getActivity()).finish();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
     }
 
     @Override

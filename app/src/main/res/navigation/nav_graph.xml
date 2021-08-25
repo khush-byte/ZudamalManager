@@ -17,12 +17,22 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.ebookfrenzy.zudamalmanager.SecondFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.AgentsFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_agents">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/pointsFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.PointsFragment"
+        android:label="fragment_points"
+        tools:layout="@layout/fragment_points" />
 </navigation>
