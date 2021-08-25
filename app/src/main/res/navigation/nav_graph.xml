@@ -35,4 +35,19 @@
         android:name="com.ebookfrenzy.zudamalmanager.PointsFragment"
         android:label="fragment_points"
         tools:layout="@layout/fragment_points" />
+    <fragment
+        android:id="@+id/terminalsFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.TerminalsFragment"
+        android:label="fragment_terminals"
+        tools:layout="@layout/fragment_terminals" />
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.ReportsFragment"
+        android:label="fragment_reports"
+        tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.ebookfrenzy.zudamalmanager.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
 </navigation>

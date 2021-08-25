@@ -192,12 +192,15 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void reportScript(View view){
-        Log.i("Debug", "Report");
-        binding.toolbarTitle.setText("Report");
+        setToolbar("Отчёты", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.reportsFragment);
     }
 
     public void agentScript(View view){
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        setToolbar("Агенты", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.SecondFragment);
+
+        /*LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams") final View popupView = inflater.inflate(R.layout.popup_exit, null);
 
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -231,7 +234,7 @@ public class FirstActivity extends AppCompatActivity {
                 startActivity(myIntent);
                 finish();
             }
-        });
+        });*/
     }
 
     public void pointScript(View view){
@@ -240,12 +243,12 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void terminalScript(View view){
-        Log.i("Debug", "Terminal");
-        binding.toolbarTitle.setText("Terminal");
+        setToolbar("Терминалы", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.terminalsFragment);
     }
 
     public void paymentScript(View view){
-        Log.i("Debug", "Payment");
-        binding.toolbarTitle.setText("Payment");
+        setToolbar("Платежи", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);
     }
 }

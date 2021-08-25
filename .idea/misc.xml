@@ -35,8 +35,12 @@
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/content_first.xml" value="0.1" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/custom_toolbar.xml" value="0.33" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_agents.xml" value="0.22401315789473683" />
-        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_first.xml" value="0.1" />
+        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_first.xml" value="0.18" />
+        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_payment.xml" value="0.22401315789473683" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_points.xml" value="0.1944078947368421" />
+        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_reports.xml" value="0.22401315789473683" />
+        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_settings.xml" value="0.22401315789473683" />
+        <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/fragment_terminals.xml" value="0.22401315789473683" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/main_menu.xml" value="0.22401315789473683" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/popup_exit.xml" value="0.33" />
         <entry key="..\:/Users/Khush/AndroidStudioProjects/ZudamalManager/app/src/main/res/layout/splash_screen.xml" value="0.19739583333333333" />
