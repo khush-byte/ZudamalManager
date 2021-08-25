@@ -43,7 +43,6 @@ public class FirstActivity extends AppCompatActivity {
         binding.constraintLayout4.setVisibility(View.INVISIBLE);
         binding.constraintLayout5.setVisibility(View.INVISIBLE);
         binding.constraintLayout6.setVisibility(View.INVISIBLE);
-        binding.constraintLayout7.setVisibility(View.INVISIBLE);
         setSupportActionBar(binding.toolbar);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_first);
@@ -60,16 +59,7 @@ public class FirstActivity extends AppCompatActivity {
                     binding.mainMenu.startAnimation(animation);
                     isAnimEnd = false;
 
-                    new CountDownTimer(150, 100) {
-                        @Override
-                        public void onTick(long millisUntilFinished) {
-                        }
 
-                        @Override
-                        public void onFinish() {
-                            binding.constraintLayout7.setVisibility(View.VISIBLE);
-                            Animation animation1 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-                            binding.constraintLayout7.startAnimation(animation1);
                             new CountDownTimer(30, 30) {
                                 @Override
                                 public void onTick(long millisUntilFinished) {
@@ -115,7 +105,6 @@ public class FirstActivity extends AppCompatActivity {
                                                                 binding.constraintLayout4.setVisibility(View.INVISIBLE);
                                                                 binding.constraintLayout5.setVisibility(View.INVISIBLE);
                                                                 binding.constraintLayout6.setVisibility(View.INVISIBLE);
-                                                                binding.constraintLayout7.setVisibility(View.INVISIBLE);
 
                                                                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_off);
                                                                 binding.mainMenu.startAnimation(animation);
@@ -131,15 +120,13 @@ public class FirstActivity extends AppCompatActivity {
                                     }.start();
                                 }
                             }.start();
-                        }
-                    }.start();
+
                 }else if(isMenuPressed && isAnimEnd)
                 {
                     binding.toolbarMenu.setImageResource(R.drawable.ic_baseline_menu);
                     binding.constraintLayout4.setVisibility(View.INVISIBLE);
                     binding.constraintLayout5.setVisibility(View.INVISIBLE);
                     binding.constraintLayout6.setVisibility(View.INVISIBLE);
-                    binding.constraintLayout7.setVisibility(View.INVISIBLE);
 
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_off);
                     binding.mainMenu.startAnimation(animation);
@@ -191,7 +178,6 @@ public class FirstActivity extends AppCompatActivity {
             binding.constraintLayout4.setVisibility(View.INVISIBLE);
             binding.constraintLayout5.setVisibility(View.INVISIBLE);
             binding.constraintLayout6.setVisibility(View.INVISIBLE);
-            binding.constraintLayout7.setVisibility(View.INVISIBLE);
 
             isMenuPressed = false;
             binding.mainMenu.setVisibility(View.GONE);
@@ -238,29 +224,36 @@ public class FirstActivity extends AppCompatActivity {
 
     public void settingsScript(View view){
         Log.i("Debug", "Settings");
+        binding.toolbarTitle.setText("Settings");
     }
 
     public void noteScript(View view){
         Log.i("Debug", "Note");
+        binding.toolbarTitle.setText("Note");
     }
 
     public void reportScript(View view){
         Log.i("Debug", "Report");
+        binding.toolbarTitle.setText("Report");
     }
 
     public void agentScript(View view){
         Log.i("Debug", "Agent");
+        binding.toolbarTitle.setText("Agent");
     }
 
     public void pointScript(View view){
         Log.i("Debug", "Point");
+        binding.toolbarTitle.setText("Point");
     }
 
     public void terminalScript(View view){
         Log.i("Debug", "Terminal");
+        binding.toolbarTitle.setText("Terminal");
     }
 
     public void paymentScript(View view){
         Log.i("Debug", "Payment");
+        binding.toolbarTitle.setText("Payment");
     }
 }
