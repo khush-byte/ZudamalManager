@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.ebookfrenzy.zudamalmanager.databinding.ActivityMainBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.SplashScreenBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.UserRegBinding;
+import com.ebookfrenzy.zudamalmanager.request.GetBalanceRequest;
 import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
 import com.ebookfrenzy.zudamalmanager.tools.NetworkManager;
 import java.util.Objects;
@@ -86,6 +87,14 @@ public class MainActivity extends AppCompatActivity {
                     RegActivity();
                 }else {
                     view[0] = binding.getRoot();
+
+                    SharedPreferences pref = getApplicationContext().getSharedPreferences("root_manager", 0);
+                    if (NetworkManager.isNetworkAvailable(getApplicationContext())) {
+                        GetBalanceRequest request = new GetBalanceRequest(pref.getString("login", ""), pref.getString("sign", ""), getApplicationContext());
+                        request.execute();
+                    }else{
+                        Toast.makeText(getBaseContext(), "Нет подключения к интернету!", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 setContentView(view[0]);
             }

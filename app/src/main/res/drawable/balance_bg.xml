@@ -8,7 +8,7 @@
         android:topRightRadius="0dp"/>
 
     <stroke
-        android:width="1dp"
-        android:color="#659C9D9E" />
+        android:width="0.5dp"
+        android:color="@color/teal_700" />
 </shape></item>
 </selector>
