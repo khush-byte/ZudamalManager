@@ -88,9 +88,8 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     view[0] = binding.getRoot();
 
-                    SharedPreferences pref = getApplicationContext().getSharedPreferences("root_manager", 0);
                     if (NetworkManager.isNetworkAvailable(getApplicationContext())) {
-                        GetBalanceRequest request = new GetBalanceRequest(pref.getString("login", ""), pref.getString("sign", ""), getApplicationContext());
+                        GetBalanceRequest request = new GetBalanceRequest(getApplicationContext());
                         request.execute();
                     }else{
                         Toast.makeText(getBaseContext(), "Нет подключения к интернету!", Toast.LENGTH_SHORT).show();

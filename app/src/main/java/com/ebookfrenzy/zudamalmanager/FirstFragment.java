@@ -1,22 +1,26 @@
 package com.ebookfrenzy.zudamalmanager;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.ebookfrenzy.zudamalmanager.adapters.HistoryAdapter;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentFirstBinding;
+import com.ebookfrenzy.zudamalmanager.request.HistoryDayRequest;
 
 public class FirstFragment extends Fragment{
-    private FragmentFirstBinding binding;
+    public FragmentFirstBinding binding;
+    public boolean initialized = false;
+    public HistoryAdapter adapter;
+    public String[] massive = {};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -24,14 +28,22 @@ public class FirstFragment extends Fragment{
         return binding.getRoot();
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         SharedPreferences pref = getContext().getSharedPreferences("root_manager", 0);
-        String bal = "TJS " + pref.getString("balance", "");
-        String over = "TJS " + pref.getString("overdraft", "");
+        String bal = "TJS " + pref.getString("balance", "").trim();
+        String over = "TJS " + pref.getString("overdraft", "").trim();
         binding.balanceText.setText(bal);
         binding.overText.setText(over);
+
+        HistoryDayRequest request = new HistoryDayRequest(this);
+        request.execute();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        binding.historyRecycler.setLayoutManager(layoutManager);
+        adapter = new HistoryAdapter();
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
             @Override

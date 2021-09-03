@@ -1,15 +1,12 @@
 package com.ebookfrenzy.zudamalmanager.request;
 
 import static com.ebookfrenzy.zudamalmanager.tools.MyData.myUrl;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.ebookfrenzy.zudamalmanager.FirstActivity;
 import com.ebookfrenzy.zudamalmanager.MainActivity;
 import com.ebookfrenzy.zudamalmanager.tools.HTTPHandler;
