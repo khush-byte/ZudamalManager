@@ -1,7 +1,6 @@
 package com.ebookfrenzy.zudamalmanager.tools;
 
 import android.util.Log;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,9 +12,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 
 public class HTTPHandler {
-
     private static final String TAG = HTTPHandler.class.getSimpleName();
-
     public HTTPHandler() {
     }
 

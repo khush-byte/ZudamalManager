@@ -1,21 +1,13 @@
 package com.ebookfrenzy.zudamalmanager;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,7 +50,6 @@ public class FirstActivity extends AppCompatActivity {
                     Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.menu_on);
                     binding.mainMenu.startAnimation(animation);
                     isAnimEnd = false;
-
 
                             new CountDownTimer(30, 30) {
                                 @Override
