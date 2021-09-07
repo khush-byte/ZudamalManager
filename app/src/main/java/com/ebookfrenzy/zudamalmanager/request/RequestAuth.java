@@ -44,7 +44,7 @@ public class RequestAuth extends AsyncTask<Void, Void, Void> {
         HTTPHandler handler = new HTTPHandler();
         Log.i("Debug", myUrl + "auth.aspx?act=1&un=" + user_name + "&hc=" + hash);
         myResponse = handler.makeServiceCall(myUrl + "auth.aspx?act=1&un=" + user_name + "&hc=" + hash);
-        Log.i("Debug", myResponse);
+        //Log.i("Debug", myResponse);
         return null;
     }
 

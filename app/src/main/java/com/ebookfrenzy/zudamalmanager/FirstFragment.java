@@ -3,14 +3,21 @@ package com.ebookfrenzy.zudamalmanager;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Toast;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.ebookfrenzy.zudamalmanager.adapters.HistoryAdapter;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentFirstBinding;
 import com.ebookfrenzy.zudamalmanager.request.HistoryDayRequest;
@@ -20,6 +27,7 @@ public class FirstFragment extends Fragment{
     public boolean initialized = false;
     public HistoryAdapter adapter;
     public String[] massive = {};
+    boolean isScrolled = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,6 +44,8 @@ public class FirstFragment extends Fragment{
         String over = "TJS " + pref.getString("overdraft", "").trim();
         binding.balanceText.setText(bal);
         binding.overText.setText(over);
+        binding.btnDownHistory.setVisibility(View.GONE);
+        binding.mainMenuBtn2.setVisibility(View.GONE);
 
         HistoryDayRequest request = new HistoryDayRequest(this);
         request.execute();
@@ -44,6 +54,29 @@ public class FirstFragment extends Fragment{
         binding.historyRecycler.setLayoutManager(layoutManager);
         adapter = new HistoryAdapter();
 
+        binding.historyRecycler.addOnScrollListener (new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (!recyclerView.canScrollVertically(1) && dy > 0)
+                {
+                    Log.i("RecyclerView scrolled: ", "scroll start");
+                    binding.mainMenuBtn.setVisibility(View.GONE);
+                    binding.btnDownHistory.setVisibility(View.VISIBLE);
+                    binding.mainMenuBtn2.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        binding.btnDownHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.mainMenuBtn.setVisibility(View.VISIBLE);
+                binding.btnDownHistory.setVisibility(View.GONE);
+                binding.mainMenuBtn2.setVisibility(View.GONE);
+            }
+        });
+
+        //END_______
         OnBackPressedCallback callback = new OnBackPressedCallback(true ) {
             @Override
             public void handleOnBackPressed() {

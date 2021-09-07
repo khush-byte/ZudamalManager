@@ -26,7 +26,7 @@ public class HistoryDayRequest extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         HTTPHandler handler = new HTTPHandler();
         myResponse = handler.makeServiceCall(myUrl + "report.aspx?act=1&un=" + user_name + "&hc=" + hash + "&aa=1&dt1=2021-09-03&r=1");
-        Log.i("Debug", myResponse);
+        //Log.i("Debug", myResponse);
         return null;
     }
 

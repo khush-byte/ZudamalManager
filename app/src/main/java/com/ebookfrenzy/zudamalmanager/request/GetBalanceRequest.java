@@ -26,7 +26,7 @@ public class GetBalanceRequest extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         HTTPHandler handler = new HTTPHandler();
         myResponse = handler.makeServiceCall(myUrl + "auth.aspx?act=1&un=" + user_name + "&hc=" + hash);
-        Log.i("Debug", myResponse);
+        //Log.i("Debug", myResponse);
         return null;
     }
 
@@ -37,12 +37,12 @@ public class GetBalanceRequest extends AsyncTask<Void, Void, Void> {
                 if (!myResponse.substring(0, 1).equals("#")) {
                     Log.e("Debug", myResponse);
 
-                    String[] DelStr = myResponse.trim().split(",");
+                    String[] DelStr = myResponse.trim().split(" ");
                     Log.e("Debug", DelStr[0]);
 
                     SharedPreferences.Editor editor = context.getSharedPreferences("root_manager", 0).edit();
-                    editor.putString("balance", DelStr[0]);
-                    editor.putString("overdraft", DelStr[1]);
+                    editor.putString("balance", DelStr[0].substring(0,DelStr[0].length()-1).replace(",","."));
+                    editor.putString("overdraft", DelStr[1].replace(",","."));
                     editor.apply();
                 }
             } catch (Exception e) {
