@@ -2,6 +2,7 @@ package com.ebookfrenzy.zudamalmanager.adapters;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,26 +51,40 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         String[] agent = data[0].split(" ");
         viewHolder.data_time.setText(data[2].substring(11, data[2].length()-3));
 
-        if(data[3].equals("1")){
-            viewHolder.phone_num.setText("Добавлено на баланс агента: "+agent[0]);
-            viewHolder.sum.setTextColor(Color.parseColor("#DD413B"));
+        if(data[3].equals("1") || data[3].equals("5")){
+            if(!data[4].equals(" "))
+            viewHolder.phone_num.setText("Добавлено на баланс агента: "+agent[0]+". "+data[4]);
+            else viewHolder.phone_num.setText("Добавлено на баланс агента: "+agent[0]);
+
+            //viewHolder.phone_num.setTextColor(Color.parseColor("#036308"));
+            viewHolder.sum.setTextColor(Color.parseColor("#036308"));
             viewHolder.sum.setText(data[1]);
             viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_down);
         } else if(data[3].equals("2")) {
             viewHolder.phone_num.setText("Добавлено вознаграждение агенту: " + agent[0]);
-            viewHolder.sum.setTextColor(Color.parseColor("#DD413B"));
             viewHolder.sum.setText(data[1]);
             viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_down);
         } else if(data[3].equals("3")) {
-            viewHolder.phone_num.setText("Снято с баланса агента: "+agent[0]);
-            viewHolder.sum.setTextColor(Color.parseColor("#368C2B"));
+            if(!data[4].equals(" "))
+            viewHolder.phone_num.setText("Снято с баланса агента: "+agent[0]+". "+data[4]);
+            else  viewHolder.phone_num.setText("Снято с баланса агента: "+agent[0]);
+
+            //viewHolder.phone_num.setTextColor(Color.parseColor("#1814e3"));
+            viewHolder.sum.setTextColor(Color.parseColor("#1814e3"));
             viewHolder.sum.setText(data[1]);
             viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_up);
         } else if(data[3].equals("4")) {
             viewHolder.phone_num.setText("Добавлен овердрафт агенту: " + agent[0]);
-            viewHolder.sum.setTextColor(Color.parseColor("#DD413B"));
+            viewHolder.sum.setTextColor(Color.parseColor("#e01626"));
+            //viewHolder.phone_num.setTextColor(Color.parseColor("#e01626"));
             viewHolder.sum.setText(data[1]);
             viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_down);
+        } else if(data[3].equals("6")) {
+            viewHolder.phone_num.setText("Погашен овердрафт агента: "+agent[0]);
+            viewHolder.sum.setTextColor(Color.parseColor("#045e88"));
+            //viewHolder.phone_num.setTextColor(Color.parseColor("#045e88"));
+            viewHolder.sum.setText(data[1]);
+            viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_up);
         }
     }
 }

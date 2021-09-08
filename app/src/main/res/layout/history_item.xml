@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
             android:text="100.00"
-            android:textColor="#368C2B"
+            android:textColor="@color/gray"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/history_text" />
