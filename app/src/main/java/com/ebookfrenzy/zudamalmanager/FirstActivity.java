@@ -16,12 +16,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.ebookfrenzy.zudamalmanager.databinding.ActivityFirstBinding;
+import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
+import com.ebookfrenzy.zudamalmanager.tools.NetworkManager;
 
 public class FirstActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
@@ -251,6 +255,53 @@ public class FirstActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(myIntent);
                 finish();
+            }
+        });
+    }
+
+    public void updatePin(View view){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        @SuppressLint("InflateParams") final View popupView = inflater.inflate(R.layout.popup_pin, null);
+
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.MATCH_PARENT;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
+
+        Button no_pin_btn = popupView.findViewById(R.id.no_pin_btn);
+        Button yes_pin_btn = popupView.findViewById(R.id.yes_pin_btn);
+        TextView pin_text_setting = popupView.findViewById(R.id.pin_text_setting);
+        TextView pin_text_setting_new = popupView.findViewById(R.id.pin_text_setting_new);
+
+        // show the popup window
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        no_pin_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
+        yes_pin_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences pref = getApplicationContext().getSharedPreferences("root_manager", 0);
+
+                if(pin_text_setting.getText().toString().equals(pref.getString("pin", ""))) {
+                    if (pin_text_setting_new.getText().length() == 4) {
+                        SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("root_manager", 0).edit();
+                        editor.putString("pin", pin_text_setting_new.getText().toString());
+                        editor.apply();
+
+                        Toast.makeText(getBaseContext(), "ПИН код успешно изменён", Toast.LENGTH_LONG).show();
+
+                        popupWindow.dismiss();
+                    } else {
+                        Toast.makeText(getBaseContext(), "ПИН код должен состоять из 4-х цифр!", Toast.LENGTH_LONG).show();
+                    }
+                }else{
+                    Toast.makeText(getBaseContext(), "Неправильный пин код!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

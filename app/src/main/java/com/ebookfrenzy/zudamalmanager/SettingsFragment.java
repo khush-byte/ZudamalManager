@@ -1,7 +1,6 @@
 package com.ebookfrenzy.zudamalmanager;
 
 import static android.content.Context.KEYGUARD_SERVICE;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
@@ -12,21 +11,13 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
-
-import com.ebookfrenzy.zudamalmanager.databinding.FragmentFirstBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends Fragment{
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -111,10 +102,7 @@ public class SettingsFragment extends Fragment{
             return false;
         }
 
-        if(packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)){
-            return true;
-        }
-
+        packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT);
         return true;
     }
 }
