@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.ebookfrenzy.zudamalmanager.FirstActivity;
 import com.ebookfrenzy.zudamalmanager.FirstFragment;
 import com.ebookfrenzy.zudamalmanager.R;
 
@@ -86,5 +88,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             viewHolder.sum.setText(data[1]);
             viewHolder.history_icon.setImageResource(R.drawable.ic_baseline_keyboard_double_arrow_up);
         }
+
+        ((FirstActivity) activity.getActivity()).getHistory = false;
     }
 }

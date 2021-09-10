@@ -21,10 +21,8 @@ import com.ebookfrenzy.zudamalmanager.request.HistoryDayRequest;
 
 public class FirstFragment extends Fragment{
     public FragmentFirstBinding binding;
-    public boolean initialized = false;
     public HistoryAdapter adapter;
     public String[] massive = {};
-    private int scrollPosition;
     boolean isScrolled = false;
 
     @Override
@@ -41,18 +39,29 @@ public class FirstFragment extends Fragment{
         binding.mainMenuBtn2.setVisibility(View.GONE);
         binding.pbBalance.setVisibility(View.GONE);
 
-        HistoryDayRequest request = new HistoryDayRequest(this);
-        request.execute();
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         binding.historyRecycler.setLayoutManager(layoutManager);
         adapter = new HistoryAdapter();
+
+        if(((FirstActivity) getActivity()).getHistory) {
+            HistoryDayRequest request = new HistoryDayRequest(this);
+            request.execute();
+        }else{
+            SharedPreferences pref = getContext().getSharedPreferences("root_manager", 0);
+            String myResponse =  pref.getString("response", "");
+
+            if(!myResponse.substring(0, 1).equals("#")) {
+                myResponse = myResponse.substring(0, myResponse.length() - 2);
+                massive = myResponse.split(";");
+                adapter.activity = this;
+                binding.historyRecycler.setAdapter(adapter);
+            }
+        }
 
         binding.historyRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                scrollPosition = dy;
 
                 if (dy > 10 && !isScrolled) {
                     // Scrolling up
@@ -84,7 +93,6 @@ public class FirstFragment extends Fragment{
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
                     if(firstVisiblePosition == 0 && isScrolled){
@@ -114,6 +122,31 @@ public class FirstFragment extends Fragment{
                     // Do something
                 } else {
                     // Do something
+                }
+
+                if (!recyclerView.canScrollVertically(1) && isScrolled) {
+                    new CountDownTimer(100, 100)
+                    {
+                        @Override
+                        public void onTick(long millisUntilFinished) {}
+
+                        @Override
+                        public void onFinish() {
+                            binding.mainMenuBtn.setVisibility(View.GONE);
+                            binding.mainMenuBtn2.setVisibility(View.VISIBLE);
+
+                            new CountDownTimer(800, 800)
+                            {
+                                @Override
+                                public void onTick(long millisUntilFinished) {}
+
+                                @Override
+                                public void onFinish() {
+                                    isScrolled = true;
+                                }
+                            }.start();
+                        }
+                    }.start();
                 }
             }
         });

@@ -41,18 +41,16 @@ public class HistoryDayRequest extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         if (myResponse != null) {
+            SharedPreferences.Editor editor = activity.getContext().getSharedPreferences("root_manager", 0).edit();
+            editor.putString("response", myResponse);
+            editor.apply();
+
             if(!myResponse.substring(0, 1).equals("#")) {
                 myResponse = myResponse.substring(0, myResponse.length() - 2);
                 Log.e("Debug", myResponse);
                 activity.massive = myResponse.split(";");
                 activity.adapter.activity = activity;
-
-                if (activity.initialized) {
-                    activity.adapter.notifyDataSetChanged();
-                } else {
-                    activity.initialized = true;
-                    activity.binding.historyRecycler.setAdapter(activity.adapter);
-                }
+                activity.binding.historyRecycler.setAdapter(activity.adapter);
             }
         }
     }

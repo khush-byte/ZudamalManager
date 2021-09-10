@@ -1,13 +1,22 @@
 package com.ebookfrenzy.zudamalmanager;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +29,7 @@ public class FirstActivity extends AppCompatActivity {
     private boolean isMenuPressed = false;
     boolean isAnimEnd = true;
     public NavController navController;
+    public boolean getHistory = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +200,25 @@ public class FirstActivity extends AppCompatActivity {
     public void agentScript(View view){
         setToolbar("Агенты", false);
         Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.SecondFragment);
+    }
 
-        /*LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+    public void pointScript(View view){
+        setToolbar("Пункты", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.pointsFragment);
+    }
+
+    public void terminalScript(View view){
+        setToolbar("Терминалы", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.terminalsFragment);
+    }
+
+    public void paymentScript(View view){
+        setToolbar("Платежи", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);
+    }
+
+    public void exitFromAccount(View view){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         @SuppressLint("InflateParams") final View popupView = inflater.inflate(R.layout.popup_exit, null);
 
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
@@ -225,21 +252,6 @@ public class FirstActivity extends AppCompatActivity {
                 startActivity(myIntent);
                 finish();
             }
-        });*/
-    }
-
-    public void pointScript(View view){
-        setToolbar("Пункты", false);
-        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.pointsFragment);
-    }
-
-    public void terminalScript(View view){
-        setToolbar("Терминалы", false);
-        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.terminalsFragment);
-    }
-
-    public void paymentScript(View view){
-        setToolbar("Платежи", false);
-        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);
+        });
     }
 }

@@ -26,7 +26,6 @@ public class GetBalanceRequest extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         HTTPHandler handler = new HTTPHandler();
         myResponse = handler.makeServiceCall(myUrl + "auth.aspx?act=1&un=" + user_name + "&hc=" + hash);
-        //Log.i("Debug", myResponse);
         return null;
     }
 

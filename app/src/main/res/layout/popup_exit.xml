@@ -21,11 +21,11 @@
             android:id="@+id/chart_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="46dp"
             android:gravity="center"
             android:text="Вы действительно хотите\nвыйти из акаунт?"
             android:textColor="@color/purple_500"
             android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/yes_exit_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
