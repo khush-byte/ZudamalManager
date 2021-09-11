@@ -148,8 +148,8 @@ public class FirstActivity extends AppCompatActivity {
                 Log.i("Debug", String.valueOf(navController.getCurrentDestination().getLabel()));
 
                 if(String.valueOf(navController.getCurrentDestination().getLabel()).equals("TODO")) {
-                    navController.navigate(R.id.FirstFragment);
-                    setToolbar("TODO", false);
+                    navController.navigate(R.id.SecondFragment);
+                    setToolbar("Агенты", false);
                 }
                 else {
                         navController.navigate(R.id.FirstFragment);

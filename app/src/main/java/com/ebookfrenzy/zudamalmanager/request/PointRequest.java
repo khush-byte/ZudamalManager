@@ -62,7 +62,7 @@ public class PointRequest extends AsyncTask<Void, Void, Void> {
 
                 LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getContext(), LinearLayoutManager.VERTICAL, false);
                 activity.binding.pointList.setLayoutManager(layoutManager);
-                PointAdapter adapter = new PointAdapter();
+                PointAdapter adapter = new PointAdapter(activity);
                 adapter.massive = massive_final;
                 activity.binding.pointList.setAdapter(adapter);
             }

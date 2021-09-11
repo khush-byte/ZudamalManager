@@ -63,7 +63,7 @@ public class AgentRequest extends AsyncTask<Void, Void, Void> {
 
                 LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getContext(), LinearLayoutManager.VERTICAL, false);
                 activity.binding.agentList.setLayoutManager(layoutManager);
-                AgentAdapter adapter = new AgentAdapter();
+                AgentAdapter adapter = new AgentAdapter(activity);
 
                 adapter.massive = massive_final;
                 activity.binding.agentList.setAdapter(adapter);
