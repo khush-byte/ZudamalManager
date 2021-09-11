@@ -1,16 +1,26 @@
 package com.ebookfrenzy.zudamalmanager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.ebookfrenzy.zudamalmanager.adapters.AgentAdapter;
+import com.ebookfrenzy.zudamalmanager.adapters.HistoryAdapter;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentAgentsBinding;
+import com.ebookfrenzy.zudamalmanager.request.AgentRequest;
+import com.ebookfrenzy.zudamalmanager.request.HistoryDayRequest;
+import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
 
 public class AgentsFragment extends Fragment {
-    private FragmentAgentsBinding binding;
+    public FragmentAgentsBinding binding;
 
     @Override
     public View onCreateView(
@@ -32,6 +42,9 @@ public class AgentsFragment extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+        AgentRequest request = new AgentRequest(this);
+        request.execute();
     }
 
     @Override
