@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentAgentsBinding;
 import com.ebookfrenzy.zudamalmanager.databinding.FragmentPaymentBinding;
 import com.ebookfrenzy.zudamalmanager.request.AgentRequest;
+import com.ebookfrenzy.zudamalmanager.request.CountRequest;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -192,9 +193,8 @@ public class PaymentFragment extends Fragment {
         binding.countCashBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*CountRequest req = new CountRequest();
-                req.activity = CountActivity.this;
-                req.execute();*/
+                CountRequest req = new CountRequest(PaymentFragment.this, d1, d2, radio);
+                req.execute();
             }
         });
     }
