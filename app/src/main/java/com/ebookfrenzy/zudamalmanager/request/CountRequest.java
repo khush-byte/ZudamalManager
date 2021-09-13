@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.ebookfrenzy.zudamalmanager.PaymentFragment;
+import com.ebookfrenzy.zudamalmanager.adapters.CountAdapter;
 import com.ebookfrenzy.zudamalmanager.tools.HTTPHandler;
 import com.ebookfrenzy.zudamalmanager.tools.MyData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
+import fr.arnaudguyon.xmltojsonlib.XmlToJson;
 
 public class CountRequest extends AsyncTask<Void, Void, Void> {
     PaymentFragment fragment;
@@ -57,7 +59,6 @@ public class CountRequest extends AsyncTask<Void, Void, Void> {
         if (myResponse != null) {
             Log.e("Debug", myResponse);
 
-            /*
             XmlToJson xmlToJson = new XmlToJson.Builder(myResponse).build();
             JSONObject jsonObject = xmlToJson.toJson();
             assert jsonObject != null;
@@ -72,43 +73,43 @@ public class CountRequest extends AsyncTask<Void, Void, Void> {
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject fromJson = array.getJSONObject(i);
                             MyData data = new MyData();
-                            data.name2 = fromJson.getString("cr");
+                            data.name = fromJson.getString("cr");
                             data.date_time = fromJson.getString("d");
                             data.type = fromJson.getInt("t");
-                            data.money1 = fromJson.getString("sm");
+                            data.money = fromJson.getString("sm");
                             massive.add(data);
                             sum += parseDouble(fromJson.getString("sm").replace(',', '.'));
                         }
 
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                        activity.recycler_count.setLayoutManager(layoutManager);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(fragment.getContext(), LinearLayoutManager.VERTICAL, false);
+                        fragment.binding.recyclerCount.setLayoutManager(layoutManager);
 
                         CountAdapter adapter = new CountAdapter();
                         adapter.massive = massive;
-                        activity.recycler_count.setAdapter(adapter);
+                        fragment.binding.recyclerCount.setAdapter(adapter);
 
-                        activity.count_total.setText(round(sum, 2) + " сом.");
+                        fragment.binding.countTotal.setText(round(sum, 2) + " сом.");
                     }else{
                         JSONObject my_json2 = my_json.getJSONObject("t");
                         Log.i("Debug2", my_json2.toString());
 
                         MyData data = new MyData();
-                        data.name2 = my_json2.getString("cr");
+                        data.name = my_json2.getString("cr");
                         data.date_time = my_json2.getString("d");
                         data.type = my_json2.getInt("t");
-                        data.money1 = my_json2.getString("sm");
+                        data.money = my_json2.getString("sm");
                         massive.add(data);
                         sum += parseDouble(my_json2.getString("sm").replace(',', '.'));
                     }
 
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                    activity.recycler_count.setLayoutManager(layoutManager);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(fragment.getContext(), LinearLayoutManager.VERTICAL, false);
+                    fragment.binding.recyclerCount.setLayoutManager(layoutManager);
 
                     CountAdapter adapter = new CountAdapter();
                     adapter.massive = massive;
-                    activity.recycler_count.setAdapter(adapter);
+                    fragment.binding.recyclerCount.setAdapter(adapter);
 
-                    activity.count_total.setText(round(sum, 2) +" сом.");
+                    fragment.binding.countTotal.setText(round(sum, 2) + " сом.");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -117,21 +118,21 @@ public class CountRequest extends AsyncTask<Void, Void, Void> {
                 Log.i("Debug2", "Empty Json!");
 
                 MyData data = new MyData();
-                data.money1 = "";
-                data.name2 = "";
+                data.money = "";
+                data.name = "";
                 data.date_time = "Нет данных";
                 data.type = 9;
                 massive.add(data);
 
-                LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                activity.recycler_count.setLayoutManager(layoutManager);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(fragment.getContext(), LinearLayoutManager.VERTICAL, false);
+                fragment.binding.recyclerCount.setLayoutManager(layoutManager);
 
                 CountAdapter adapter = new CountAdapter();
                 adapter.massive = massive;
-                activity.recycler_count.setAdapter(adapter);
+                fragment.binding.recyclerCount.setAdapter(adapter);
 
-                activity.count_total.setText("0.0 сом.");
-            }*/
+                fragment.binding.countTotal.setText("0.0 сом.");
+            }
         } else {
             Toast.makeText(fragment.getContext(), "Сервер не отвечает!!", Toast.LENGTH_SHORT).show();
         }
