@@ -1,12 +1,13 @@
 package com.ebookfrenzy.zudamalmanager;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
-
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.ebookfrenzy.zudamalmanager.databinding.FragmentActionBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,7 @@ public class ActionFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    public FragmentActionBinding binding;
 
     public ActionFragment() {
         // Required empty public constructor
@@ -58,9 +60,18 @@ public class ActionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_action, container, false);
+        binding = FragmentActionBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SharedPreferences pref = getContext().getSharedPreferences("root_manager", 0);
+        String agent_info = pref.getString("agent_info", "");
+        String[] text = agent_info.split("&");
 
+        binding.actionPerName.setText(text[1]);
+        binding.actionBalance.setText(text[2]);
+        binding.actionOver.setText(text[3]);
+    }
 }

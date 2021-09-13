@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -197,8 +196,8 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void reportScript(View view){
-        setToolbar("Отчёты", false);
-        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.reportsFragment);
+        /*setToolbar("Отчёты", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.reportsFragment);*/
     }
 
     public void agentScript(View view){
@@ -212,8 +211,8 @@ public class FirstActivity extends AppCompatActivity {
     }
 
     public void terminalScript(View view){
-        setToolbar("Терминалы", false);
-        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.terminalsFragment);
+        /*setToolbar("Терминалы", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.terminalsFragment);*/
     }
 
     public void paymentScript(View view){

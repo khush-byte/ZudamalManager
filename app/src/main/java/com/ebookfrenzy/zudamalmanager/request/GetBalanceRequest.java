@@ -18,7 +18,7 @@ public class GetBalanceRequest extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         SharedPreferences pref = context.getSharedPreferences("root_manager", 0);
-        user_name =  pref.getString("login", "");
+        user_name = pref.getString("login", "");
         hash = pref.getString("hash", "");
     }
 

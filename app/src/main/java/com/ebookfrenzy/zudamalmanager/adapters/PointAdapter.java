@@ -1,7 +1,7 @@
 package com.ebookfrenzy.zudamalmanager.adapters;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.ebookfrenzy.zudamalmanager.AgentsFragment;
 import com.ebookfrenzy.zudamalmanager.FirstActivity;
 import com.ebookfrenzy.zudamalmanager.PointsFragment;
 import com.ebookfrenzy.zudamalmanager.R;
@@ -65,6 +63,11 @@ public class PointAdapter extends RecyclerView.Adapter<PointAdapter.ViewHolder> 
             @Override
             public void onClick(View v) {
                 //Log.i("Debug", "Hello "+i);
+                SharedPreferences.Editor editor = fragment.getContext().getSharedPreferences("root_manager", 0).edit();
+                String mid = massive.get(i).id+"&"+massive.get(i).name+"&"+massive.get(i).balance+"&"+massive.get(i).overdraft;
+                editor.putString("agent_info", mid);
+                editor.apply();
+
                 String title = String.format("Точка №%s (%s)", massive.get(i).id, massive.get(i).login);
                 ((FirstActivity) fragment.getActivity()).setToolbar(title, false);
                 Navigation.findNavController(((FirstActivity) fragment.getActivity()), R.id.nav_host_fragment_content_first).navigate(R.id.actionFragment);
