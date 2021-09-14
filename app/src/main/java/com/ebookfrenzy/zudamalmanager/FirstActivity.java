@@ -23,8 +23,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.ebookfrenzy.zudamalmanager.databinding.ActivityFirstBinding;
-import com.ebookfrenzy.zudamalmanager.request.RequestAuth;
-import com.ebookfrenzy.zudamalmanager.tools.NetworkManager;
 
 public class FirstActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
@@ -33,6 +31,7 @@ public class FirstActivity extends AppCompatActivity {
     boolean isAnimEnd = true;
     public NavController navController;
     public boolean getHistory = true;
+    public String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,5 +302,50 @@ public class FirstActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void addBalance(View view){
+        title = "Перечисление\nсредств на баланс";
+        setToolbar("Добавление баланса", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.payFragment);
+    }
+
+    public void reduceBalance(View view){
+        title = "Снятие\nсредств с баланса";
+        setToolbar("Снятие баланса", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.payFragment);
+    }
+
+    public void addOver(View view){
+        title = "Перечисление\nсредств в долг (овердрафт)";
+        setToolbar("Добавление долга", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.payFragment);
+    }
+
+    public void reduceOver(View view){
+        title = "Погашение\nсредств с долга (овердрафта)";
+        setToolbar("Погашение долга", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.payFragment);
+    }
+
+    public void addBonus(View view){
+        title = "Перечисление\nвознаграждений на баланс";
+        setToolbar("Вознаграждение", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.payFragment);
+    }
+
+    public void turnover(View view){
+        /*setToolbar("Платежи", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);*/
+    }
+
+    public void searchPayment(View view){
+        /*setToolbar("Платежи", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);*/
+    }
+
+    public void perCount(View view){
+        /*setToolbar("Платежи", false);
+        Navigation.findNavController(this, R.id.nav_host_fragment_content_first).navigate(R.id.paymentFragment);*/
     }
 }
